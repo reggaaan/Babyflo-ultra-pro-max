@@ -8,11 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 // 1. Add CORS Policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy => policy.AllowAnyOrigin()
+    options.AddPolicy("AllowNetlify",
+        policy => policy.WithOrigins("https://babyfloultrapromax500.netlify.app") // Your actual frontend URL
                         .AllowAnyMethod()
-                        .AllowAnyHeader());
+                        .AllowAnyHeader()
+                        .AllowCredentials()); // Required if you are sending cookies/auth tokens
 });
+
+// ... then later in the pipeline
+app.UseCors("AllowNetlify");
 
 builder.Services.AddControllers();
 
